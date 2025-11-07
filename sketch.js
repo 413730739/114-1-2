@@ -142,7 +142,7 @@ function mouseReleased() {
 
           // 排列成上方配對區
           const pairsPerRow = 10;
-          const pairGroupWidth = 180;// 每對字母組寬度
+          const pairGroupWidth = 150;// 每對字母組寬度
           const letterInPairOffset = 80;// 同一對字母間距
           const rowHeight = 90;// 每行高度
           const startX = 70;// 起始X座標
@@ -198,7 +198,7 @@ function arrangeLettersSmoothly() {
   const totalRows = ceil(26 / pairsPerRow);
   const gridWidth = (pairsPerRow - 1) * pairSpacingX + letterOffset;
   const startX = (width - gridWidth) / 2;
-  const startY = (height - totalRows * pairSpacingY)+50 ;
+  const startY = (height - totalRows * pairSpacingY)+30 ;
 
   let done = true;
   for (let i = 0; i < alphabet.length; i++) {
