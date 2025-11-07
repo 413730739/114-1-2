@@ -11,7 +11,7 @@ const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 function setup() {
   createCanvas(windowWidth, windowHeight);
   colorMode(HSB, 360, 100, 100);
-  textSize(100);// 預設字體大小
+  textSize(90);// 預設字體大小
   textAlign(CENTER, CENTER);
   textStyle(BOLD);
 
@@ -142,7 +142,7 @@ function mouseReleased() {
 
           // 排列成上方配對區
           const pairsPerRow = 10;
-          const pairGroupWidth = 150;// 每對字母組寬度
+          const pairGroupWidth = 180;// 每對字母組寬度
           const letterInPairOffset = 80;// 同一對字母間距
           const rowHeight = 90;// 每行高度
           const startX = 70;// 起始X座標
