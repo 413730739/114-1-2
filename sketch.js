@@ -20,7 +20,7 @@ function setup() {
     const upper = alphabet[i];
     const lower = alphabet[i].toLowerCase();// 對應小寫字母
     const pairColor = color(random(360), random(70, 100), random(80, 100));
-    const letterSize = 80;// 字母大小
+    const letterSize = 50;// 字母大小
 
     let posUpper = getNonOverlappingPosition(letterSize);
     letters.push({
