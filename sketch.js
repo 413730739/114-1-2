@@ -68,7 +68,7 @@ function getNonOverlappingPosition(letterSize) {
     newY = random(margin * 3, height - margin);
     for (let existing of letters) {
       // 將距離門檻放寬，例如 2.5 倍字母大小
-      if (dist(newX, newY, existing.x, existing.y) < letterSize * 5) {
+      if (dist(newX, newY, existing.x, existing.y) < letterSize * 1.8) {
         overlapping = true;
         break;
       }
@@ -143,7 +143,7 @@ function mouseReleased() {
           // 排列成上方配對區
           const pairsPerRow = 10;
           const pairGroupWidth = 150;// 每對字母組寬度
-          const letterInPairOffset = 40;// 同一對字母間距
+          const letterInPairOffset = 60;// 同一對字母間距
           const rowHeight = 90;// 每行高度
           const startX = 70;// 起始X座標
           const startY = 90;
