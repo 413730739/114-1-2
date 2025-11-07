@@ -18,9 +18,9 @@ function setup() {
   // 產生所有字母
   for (let i = 0; i < alphabet.length; i++) {
     const upper = alphabet[i];
-    const lower = alphabet[i].toLowerCase();
+    const lower = alphabet[i].toLowerCase();// 對應小寫字母
     const pairColor = color(random(360), random(70, 100), random(80, 100));
-    const letterSize = 120;
+    const letterSize = 80;// 字母大小
 
     let posUpper = getNonOverlappingPosition(letterSize);
     letters.push({
