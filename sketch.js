@@ -198,7 +198,7 @@ function arrangeLettersSmoothly() {
   const totalRows = ceil(26 / pairsPerRow);
   const gridWidth = (pairsPerRow - 1) * pairSpacingX + letterOffset;
   const startX = (width - gridWidth) / 2;
-  const startY = (height - totalRows * pairSpacingY) ;
+  const startY = (height - totalRows * pairSpacingY)+50 ;
 
   let done = true;
   for (let i = 0; i < alphabet.length; i++) {
