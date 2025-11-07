@@ -143,7 +143,7 @@ function mouseReleased() {
           // 排列成上方配對區
           const pairsPerRow = 10;
           const pairGroupWidth = 150;// 每對字母組寬度
-          const letterInPairOffset = 75;// 同一對字母間距
+          const letterInPairOffset = 70;// 同一對字母間距
           const rowHeight = 90;// 每行高度
           const startX = 70;// 起始X座標
           const startY = 90;
