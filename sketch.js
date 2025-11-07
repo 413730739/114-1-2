@@ -57,24 +57,28 @@ function setup() {
 }
 
 function getNonOverlappingPosition(letterSize) {
-  const margin = 60;
+  const margin = 80; // 稍微增加邊界
   let newX, newY, overlapping;
   let attempts = 0;
-  const maxAttempts = 500;
+  const maxAttempts = 1000; // 多試幾次
 
   do {
     overlapping = false;
     newX = random(margin, width - margin);
     newY = random(margin * 3, height - margin);
     for (let existing of letters) {
-      if (dist(newX, newY, existing.x, existing.y) < letterSize)
+      // 將距離門檻放寬，例如 2.5 倍字母大小
+      if (dist(newX, newY, existing.x, existing.y) < letterSize * 2.5) {
         overlapping = true;
+        break;
+      }
     }
     attempts++;
   } while (overlapping && attempts < maxAttempts);
 
   return { x: newX, y: newY };
 }
+
 
 function draw() {
   background(245, 245, 220);
