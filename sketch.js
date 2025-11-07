@@ -11,7 +11,7 @@ const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 function setup() {
   createCanvas(windowWidth, windowHeight);
   colorMode(HSB, 360, 100, 100);
-  textSize(120);
+  textSize(100);// 預設字體大小
   textAlign(CENTER, CENTER);
   textStyle(BOLD);
 
