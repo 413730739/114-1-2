@@ -9,6 +9,12 @@ let fireworks = [];
 let showHelp = true; // 初始顯示說明框
 let helpButton; // 右上角的問號按鈕
 let closeButton; // 說明框的關閉按鈕
+let isHelpModalVisible = false; // 用來追蹤 HTML 說明框是否可見
+
+// 這個函式會被 index.html 中的 JavaScript 呼叫
+function setHelpModalVisible(visible) {
+  isHelpModalVisible = visible;
+}
 const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 function setup() {
@@ -120,6 +126,7 @@ function draw() {
 
 // 滑鼠事件
 function mousePressed() {
+   if (isHelpModalVisible) return; // 如果說明框可見，則不執行任何操作
   if (arranging || arranged) return;
   for (let i = letters.length - 1; i >= 0; i--) {
     let l = letters[i];
@@ -152,6 +159,7 @@ function mousePressed() {
 }
 
 function mouseDragged() {
+   if (isHelpModalVisible) return; // 如果說明框可見，則不執行任何操作
   if (draggedLetter) {
     draggedLetter.x = mouseX + offsetX;
     draggedLetter.y = mouseY + offsetY;
@@ -159,7 +167,7 @@ function mouseDragged() {
 }
 
 function mouseReleased() {
-  
+   if (isHelpModalVisible) return; // 如果說明框可見，則不執行任何操作
   if (showHelp) return; // 如果說明框顯示中，不進行遊戲操作
   
   if (draggedLetter) {
