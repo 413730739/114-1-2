@@ -157,7 +157,7 @@ function mouseReleased() {
           const letterInPairOffset = 70;// 同一對字母間距
           const rowHeight = 90;// 每行高度
           const startX = 70;// 起始X座標
-          const startY = 100;
+          const startY = 110;
 
           const currentRow = floor(matchedPairsCount / pairsPerRow);
           const currentColumn = matchedPairsCount % pairsPerRow;
