@@ -1,18 +1,167 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Sketch</title>
+    <title>遊戲玩法說明範例</title>
 
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <style>
+        /* --- 基本頁面樣式 --- */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0; /* 移除內邊距，避免滾動條產生 */
+            background-color: #f0f0f0;
+            overflow: hidden; /* 強制隱藏滾動條 */
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        /* --- 右上角的問號按鈕 --- */
+        .help-button {
+            position: fixed; /* 固定在畫面上 */
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background-color: #007BFF;
+            color: white;
+            border-radius: 50%; /* 圓形 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 1000; /* 確保在最上層 */
+        }
+
+        .help-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* --- 說明框 (Modal) 的背景 --- */
+        .modal-overlay {
+            display: none; /* 預設隱藏 */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6); /* 半透明黑色背景 */
+            justify-content: center;
+            align-items: center;
+            z-index: 1001; /* 確保在問號按鈕之上 */
+        }
+
+        /* --- 說明框的內容 --- */
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            width: 90%;
+            max-width: 450px;
+            text-align: center;
+            position: relative; /* 為了定位關閉按鈕 */
+            animation: fadeIn 0.3s; /* 加入淡入動畫 */
+        }
+
+        /* --- 說明框的標題和內文 --- */
+        .modal-content h2 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .modal-content p {
+            font-size: 18px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* --- 右上角的叉叉關閉按鈕 --- */
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 30px;
+            color: #888;
+            cursor: pointer;
+        }
+
+        .close-button:hover {
+            color: #000;
+        }
+        
+        /* --- 淡入動畫效果 --- */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
 
     <script src="libraries/p5.min.js"></script>
     <script src="libraries/p5.sound.min.js"></script>
   </head>
 
   <body>
+    <!-- 右上角的問號按鈕 -->
+    <div class="help-button" id="openHelpModal">?</div>
+
+    <!-- 玩法說明框 (Modal) -->
+    <div class="modal-overlay" id="helpModal">
+        <div class="modal-content">
+            <!-- 叉叉關閉按鈕 -->
+            <span class="close-button" id="closeHelpModal">&times;</span>
+            <h2>玩法說明</h2>
+            <p>找到每個字母的大寫跟小寫把他們配對在一起吧<br>按住字母拉住它去找對應的字母吧</p>
+        </div>
+    </div>
+
     <script src="sketch.js"></script>
+
+    <script>
+        // 獲取我們需要的 HTML 元素
+        const helpModal = document.getElementById('helpModal');
+        const openHelpBtn = document.getElementById('openHelpModal');
+        const closeHelpBtn = document.getElementById('closeHelpModal');
+
+        // 顯示說明框的函式，並通知 sketch.js
+        function showModal() {
+            helpModal.style.display = 'flex'; // 將 display 設為 flex 來啟用置中效果
+            if (typeof setHelpModalVisible === 'function') {
+                setHelpModalVisible(true);
+            }
+        }
+
+        // 隱藏說明框的函式，並通知 sketch.js
+        function hideModal() {
+            helpModal.style.display = 'none';
+            if (typeof setHelpModalVisible === 'function') {
+                setHelpModalVisible(false);
+            }
+        }
+
+        // 頁面載入完成後，立即顯示說明框
+        window.addEventListener('load', showModal);
+
+        // 點擊問號按鈕時，顯示說明框
+        openHelpBtn.addEventListener('click', showModal);
+
+        // 點擊叉叉按鈕時，隱藏說明框
+        closeHelpBtn.addEventListener('click', hideModal);
+
+        // 點擊說明框以外的灰色區域時，也隱藏說明框
+        window.addEventListener('click', function(event) {
+            if (event.target == helpModal) {
+                hideModal();
+            }
+        });
+    </script>
   </body>
 </html>
