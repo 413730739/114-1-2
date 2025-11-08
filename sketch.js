@@ -12,6 +12,7 @@ let isHelpModalVisible = false; // 用來追蹤 HTML 說明框是否可見
 function setHelpModalVisible(visible) {
   isHelpModalVisible = visible;
 }
+
 const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 function setup() {
@@ -70,9 +71,10 @@ function getNonOverlappingPosition(letterSize) {
 
   do {
     overlapping = false;
-    newX = random(margin, width - margin);
-    newY = random(margin * 3, height - margin);
-    for (let existing of letters) {
+    newX = random(margin, width - margin);// 增加邊界
+    newY = random(margin * 3, height - margin);// 增加邊界
+
+    for (let existing of letters) {// 檢查重疊
       // 將距離門檻放寬，例如 2.5 倍字母大小
       if (dist(newX, newY, existing.x, existing.y) < letterSize * 1.8) {
         overlapping = true;
@@ -110,16 +112,14 @@ function draw() {
     fill(letter.color);
     text(letter.char, displayX, displayY);
   }
- 
 }
 
 // 滑鼠事件
 function mousePressed() {
-   if (isHelpModalVisible) return; // 如果說明框可見，則不執行任何操作
+  if (isHelpModalVisible) return; // 如果說明框可見，則不執行任何操作
   if (arranging || arranged) return;
   for (let i = letters.length - 1; i >= 0; i--) {
     let l = letters[i];
-  
     if (!l.isMatched && dist(mouseX, mouseY, l.x, l.y) < l.size / 2) {
       draggedLetter = l;
       l.isDragging = true;
@@ -133,7 +133,7 @@ function mousePressed() {
 }
 
 function mouseDragged() {
-   if (isHelpModalVisible) return; // 如果說明框可見，則不執行任何操作
+  if (isHelpModalVisible) return; // 如果說明框可見，則不執行任何操作
   if (draggedLetter) {
     draggedLetter.x = mouseX + offsetX;
     draggedLetter.y = mouseY + offsetY;
@@ -141,11 +141,9 @@ function mouseDragged() {
 }
 
 function mouseReleased() {
-   if (isHelpModalVisible) return; // 如果說明框可見，則不執行任何操作
-  if (showHelp) return; // 如果說明框顯示中，不進行遊戲操作
-  
-  if (draggedLetter) {
-    let foundMatch = false;
+  if (isHelpModalVisible) return; // 如果說明框可見，則不執行任何操作
+  if (draggedLetter) {// 放開時檢查配對
+    let foundMatch = false;// 是否找到配對
     for (let letter of letters) {
       if (letter !== draggedLetter && letter.char === draggedLetter.partner) {
         if (dist(draggedLetter.x, draggedLetter.y, letter.x, letter.y) < draggedLetter.size) {
@@ -190,9 +188,9 @@ function mouseReleased() {
       }
     }
 
-    if (!foundMatch) {
-      draggedLetter.x = draggedLetter.origX;
-      draggedLetter.y = draggedLetter.origY;
+    if (!foundMatch) {// 未配對成功，回到原位並震動
+      draggedLetter.x = draggedLetter.origX;// 回到原位
+      draggedLetter.y = draggedLetter.origY;// 回到原位
       draggedLetter.shake = 15;
     }
 
@@ -203,24 +201,25 @@ function mouseReleased() {
 
 // 平滑排列動畫
 function arrangeLettersSmoothly() {
-  const pairsPerRow = 6;
-  const pairSpacingX = 230;
-  const pairSpacingY = 140;
-  const letterOffset = 100;
+  const pairsPerRow = 6;// 每行對數
+  const pairSpacingX = 230;// 每對字母組水平間距
+  const pairSpacingY = 140;// 每對字母組垂直間距
+  const letterOffset = 100;// 同一對字母間距
 
-  const totalRows = ceil(26 / pairsPerRow);
-  const gridWidth = (pairsPerRow - 1) * pairSpacingX + letterOffset;
-  const startX = (width - gridWidth) / 2;
-  const startY = (height - totalRows * pairSpacingY)+30 ;
+  const totalRows = ceil(26 / pairsPerRow);// 總行數
+  const gridWidth = (pairsPerRow - 1) * pairSpacingX + letterOffset;// 格子寬度
+  const startX = (width - gridWidth) / 2;// 起始X座標
+  const startY = (height - totalRows * pairSpacingY)+30 ;// 起始Y座標
+
 
   let done = true;
-  for (let i = 0; i < alphabet.length; i++) {
+  for (let i = 0; i < alphabet.length; i++) {// 26 個字母
     let upper = letters.find(l => l.char === alphabet[i]);
     let lower = letters.find(l => l.char === alphabet[i].toLowerCase());
-    if (upper && lower) {
-      const row = floor(i / pairsPerRow);
+    if (upper && lower) {// 找到字母對
+      const row = floor(i / pairsPerRow);// 計算行列
       const col = i % pairsPerRow;
-      const targetX = startX + col * pairSpacingX;
+      const targetX = startX + col * pairSpacingX;// 計算目標位置
       const targetY = startY + row * pairSpacingY;
 
       upper.x = lerp(upper.x, targetX, 0.08);
@@ -291,5 +290,4 @@ function updateFireworks() {
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
-   
 }
