@@ -6,9 +6,6 @@ let matchedPairsCount = 0;
 let arranging = false;
 let arranged = false;
 let fireworks = [];
-let showHelp = true; // 初始顯示說明框
-let helpButton; // 右上角的問號按鈕
-let closeButton; // 說明框的關閉按鈕
 let isHelpModalVisible = false; // 用來追蹤 HTML 說明框是否可見
 
 // 這個函式會被 index.html 中的 JavaScript 呼叫
@@ -23,9 +20,6 @@ function setup() {
   textSize(90);// 預設字體大小
   textAlign(CENTER, CENTER);
   textStyle(BOLD);
-// 初始化按鈕位置
-  helpButton = { x: width - 60, y: 60, size: 50 };// 右上角問號按鈕位置
-  closeButton = { x: width / 2 + 280, y: height / 2 - 180, size: 40 };
 
   // 產生所有字母
   for (let i = 0; i < alphabet.length; i++) {
@@ -116,12 +110,7 @@ function draw() {
     fill(letter.color);
     text(letter.char, displayX, displayY);
   }
-   // 根據狀態繪製說明框或問號按鈕
-  if (showHelp) {
-    drawHelpDialog();
-  } else {
-    drawHelpButton();
-  }
+ 
 }
 
 // 滑鼠事件
@@ -130,22 +119,7 @@ function mousePressed() {
   if (arranging || arranged) return;
   for (let i = letters.length - 1; i >= 0; i--) {
     let l = letters[i];
-     // 檢查是否點擊UI元素
-    if (showHelp) {
-      // 點擊關閉按鈕
-      if (dist(mouseX, mouseY, closeButton.x, closeButton.y) < closeButton.size / 2) {
-        showHelp = false;
-        return;
-      }
-    } else {
-      // 點擊問號按鈕
-      if (dist(mouseX, mouseY, helpButton.x, helpButton.y) < helpButton.size / 2) {
-        showHelp = true;
-        return;
-      }
-    }
-    if (showHelp) return; // 如果說明框顯示中，不進行遊戲操作
-   
+  
     if (!l.isMatched && dist(mouseX, mouseY, l.x, l.y) < l.size / 2) {
       draggedLetter = l;
       l.isDragging = true;
@@ -317,61 +291,5 @@ function updateFireworks() {
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
-    // 更新按鈕位置
-  helpButton = { x: width - 60, y: 60, size: 50 };// 右上角問號按鈕位置
-  closeButton = { x: width / 2 + 280, y: height / 2 - 180, size: 40 };
-}
-
-// --- UI 繪製函式 ---
-
-function drawHelpDialog() {
-  // 半透明背景
-  fill(0, 0, 0, 150);
-  rect(0, 0, width, height);
-
-  // 說明框
-  let boxWidth = 600;
-  let boxHeight = 400;
-  let boxX = width / 2 - boxWidth / 2;
-  let boxY = height / 2 - boxHeight / 2;
-
-  fill(255, 253, 240);
-  stroke(0);
-  strokeWeight(2);
-  rect(boxX, boxY, boxWidth, boxHeight, 20);
-
-  // 標題
-  noStroke();
-  fill(0);// 使用預設填充色
-  textSize(32);
-  textStyle(BOLD);
-  text("玩法說明", width / 2, boxY+45);// 標題位置
-
-  // 說明文字
-  textSize(24);
-  textStyle(NORMAL);
-  textAlign(LEFT, TOP);// 調整對齊方式
-  text("找到每個字母的大寫跟小寫，\n\n然後把他們配對在一起吧！\n\n按住字母並拖住它，\n\n去尋找對應的字母配對。", boxX + 50, boxY + 120, boxWidth - 100);
-  textAlign(CENTER, CENTER); // 還原設定
-
-  // 關閉按鈕
-  fill(255, 100, 100);
-  noStroke();
-  circle(closeButton.x, closeButton.y, closeButton.size);
-  fill(255);
-  stroke(255);
-  strokeWeight(4);
-  line(closeButton.x - 10, closeButton.y - 10, closeButton.x + 10, closeButton.y + 10);
-  line(closeButton.x + 10, closeButton.y - 10, closeButton.x - 10, closeButton.y + 10);
-}
-
-function drawHelpButton() {
-  fill(100, 150, 255);
-  noStroke();
-  circle(helpButton.x, helpButton.y, helpButton.size);
-  fill(255);
-  textSize(35);
-  textStyle(BOLD);
-  text("?", helpButton.x, helpButton.y);
-
+   
 }
